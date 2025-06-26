@@ -31,3 +31,4 @@ Test the server using the MCP inspector:
 ```bash
 npx @modelcontextprotocol/inspector
 ```
+

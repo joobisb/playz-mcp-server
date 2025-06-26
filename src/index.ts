@@ -5,7 +5,7 @@ import createSupabase from "./supabase";
 
 type Env = {
 	SUPABASE_URL: string;
-	SUPABASE_PUBLISHABLE_KEY: string;
+	SUPABASE_ANON_KEY: string;
 };
 
 // Define our MCP agent class, which will hold the tools and server logic.
@@ -65,7 +65,7 @@ export class FantasyCricketAgent extends McpAgent<{}, Env> {
 			async (args: any) => {
 				const { data, error } = await supabase
 					.from("matches")
-					.select("*")
+					.select("id, tournament_id, venue, completed_at")
 					.eq("tournament_id", args.tournament_id);
 				
 				if (error) {
@@ -93,7 +93,7 @@ export class FantasyCricketAgent extends McpAgent<{}, Env> {
 				role: z.string().optional().describe("Player role to filter by (optional)")
 			},
 			async (args: any) => {
-				let query = supabase.from("players").select("*");
+				let query = supabase.from("players").select("name, role");
 				if (args.player_name) {
 					query = query.ilike("name", `%${args.player_name}%`);
 				}
